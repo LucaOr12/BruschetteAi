@@ -33,7 +33,7 @@ client.on('messageCreate', async message => {
                 body: JSON.stringify({
                     model: 'deepseek/deepseek-r1-0528-qwen3-8b:free',
                     messages: [
-                        { role: 'system', content: 'Rispondi come un esperto amichevole.' },
+                        { role: 'system', content: 'Rispondi come un esperto amichevole. Non superare 2000 parole' },
                         { role: 'user', content: prompt }
                     ]
                 })
