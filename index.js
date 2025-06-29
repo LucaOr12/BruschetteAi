@@ -31,17 +31,10 @@ client.on('messageCreate', async message => {
                     'X-Title': 'BruschetteAiBot'
                 },
                 body: JSON.stringify({
-                    "model": "mistralai/mistral-small-3.2-24b-instruct:free",
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": [
-                                {
-                                    "type": "text",
-                                    "text": prompt
-                                }
-                            ]
-                        }
+                    model: 'deepseek/deepseek-r1-0528-qwen3-8b:free',
+                    messages: [
+                        { role: 'system', content: 'Rispondi come un esperto amichevole.' },
+                        { role: 'user', content: prompt }
                     ]
                 })
             });
