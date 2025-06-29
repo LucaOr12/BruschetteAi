@@ -1,5 +1,5 @@
 import { Client, GatewayIntentBits } from 'discord.js';
-
+import http from 'http';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -57,6 +57,15 @@ client.on('messageCreate', async message => {
             message.reply('⚠️ Errore durante la richiesta all’LLM.');
         }
     }
+});
+
+const PORT = process.env.PORT || 3000;
+
+http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('BruschettaBot is alive!\n');
+}).listen(PORT, () => {
+    console.log(`🛰️ HTTP server running on port ${PORT}`);
 });
 
 client.login(process.env.DISCORD_TOKEN);
