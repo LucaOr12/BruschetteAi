@@ -32,7 +32,7 @@ client.on('messageCreate', async message => {
                 },
                 body: JSON.stringify({
                     model: 'deepseek/deepseek-r1-0528-qwen3-8b:free',
-                    max_tokens: 500,
+                    max_tokens: 1000,
                     messages: [
                         { role: 'system', content: 'Rispondi in modo breve e utile' },
                         { role: 'user', content: prompt }
