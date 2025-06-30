@@ -16,7 +16,7 @@ client.on('messageCreate', async message => {
     if (message.author.bot) return;
 
     if (message.content.startsWith('!ai ')) {
-        const prompt = message.content.slice(5).trim();
+        const prompt = message.content.slice(2).trim();
         if (!prompt) return message.reply("Scrivi qualcosa dopo `!ai`!");
 
         message.channel.sendTyping();
