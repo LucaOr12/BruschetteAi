@@ -32,8 +32,9 @@ client.on('messageCreate', async message => {
                 },
                 body: JSON.stringify({
                     model: 'deepseek/deepseek-r1-0528-qwen3-8b:free',
+                    max_tokens: 500,
                     messages: [
-                        { role: 'system', content: 'Rispondi come un esperto amichevole. Non superare 2000 parole' },
+                        { role: 'system', content: 'Rispondi in modo breve e utile' },
                         { role: 'user', content: prompt }
                     ]
                 })
@@ -51,7 +52,12 @@ client.on('messageCreate', async message => {
             }
 
             const reply = data.choices[0].message.content;
-            message.reply(reply.slice(0, 2000));
+            const chunks = reply.match(/[\s\S]{1,1990}(?!\S)/g);
+
+            for (const chunk of chunks) {
+                await message.reply(chunk);
+            }
+
         } catch (err) {
             console.error('🔥 Errore durante la fetch:', err);
             message.reply('⚠️ Errore durante la richiesta all’LLM.');
