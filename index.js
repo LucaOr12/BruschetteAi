@@ -1,6 +1,6 @@
 import { Client, GatewayIntentBits } from 'discord.js';
 import http from 'http';
-import fetch from 'node-fetch';
+import fetch from 'node-fetch'; // puoi rimuoverlo se usi Node 18+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -31,12 +31,14 @@ client.on('messageCreate', async message => {
                     'X-Title': 'BruschetteAiBot'
                 },
                 body: JSON.stringify({
-                    model: 'deepseek/deepseek-r1-0528-qwen3-8b:free',
-                    max_tokens: 1000,
+                    model: "mistralai/mistral-small-3.2-24b-instruct:free",
                     messages: [
-                        { role: 'system', content: 'Rispondi in modo breve e utile' },
-                        { role: 'user', content: prompt }
-                    ]
+                        {
+                            role: "user",
+                            content: prompt
+                        }
+                    ],
+                    max_tokens: 1000
                 })
             });
 
@@ -47,12 +49,12 @@ client.on('messageCreate', async message => {
             console.log('📦 Risposta JSON:', JSON.stringify(data, null, 2));
 
             if (!data.choices || !data.choices[0]) {
-                message.reply("❌ Nessuna scelta valida ricevuta.");
+                message.reply("❌ Nessuna risposta valida ricevuta.");
                 return;
             }
 
             const reply = data.choices[0].message.content;
-            const chunks = reply.match(/[\s\S]{1,1990}(?!\S)/g);
+            const chunks = reply.match(/[\s\S]{1,1990}(?!\S)/g) || [];
 
             for (const chunk of chunks) {
                 await message.reply(chunk);
@@ -60,7 +62,7 @@ client.on('messageCreate', async message => {
 
         } catch (err) {
             console.error('🔥 Errore durante la fetch:', err);
-            message.reply('⚠️ Errore durante la richiesta all’LLM.');
+            message.reply('⚠️ Errore durante la richiesta al modello.');
         }
     }
 });
